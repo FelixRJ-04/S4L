@@ -76,4 +76,3 @@ with mp_holistic.Holistic(
 
 cap.release()
 cv2.destroyAllWindows()
-hola

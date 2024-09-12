@@ -13,7 +13,7 @@ def draw_keypoints(image, results):
         DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
         DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1),
     )
-    # Draw pose connections
+    #CONEXIONES DE POSE
     draw_landmarks(
         image,
         results.pose_landmarks,
@@ -21,7 +21,7 @@ def draw_keypoints(image, results):
         DrawingSpec(color=(80, 22, 10), thickness=2, circle_radius=4),
         DrawingSpec(color=(80, 44, 121), thickness=2, circle_radius=2),
     )
-    # Draw left hand connections
+    #CONEXIONES DE MANO IZQUIERDA
     draw_landmarks(
         image,
         results.left_hand_landmarks,
@@ -29,7 +29,7 @@ def draw_keypoints(image, results):
         DrawingSpec(color=(121, 22, 76), thickness=2, circle_radius=4),
         DrawingSpec(color=(121, 44, 250), thickness=2, circle_radius=2),
     )
-    # Draw right hand connections
+    # CONEXIONES DE MANO DERECHA
     draw_landmarks(
         image,
         results.right_hand_landmarks,

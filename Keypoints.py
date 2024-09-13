@@ -4,6 +4,9 @@ import pandas as pd
 import cv2 as cv
 import json 
 
+
+from mediapipe.python.solutions.holistic import FACEMESH_CONTOURS, POSE_CONNECTIONS, HAND_CONNECTIONS
+from mediapipe.python.solutions.drawing_utils import draw_landmarks, DrawingSpec
 from Dibuja import mediapipe_detection
 from Constantes import *
 
@@ -37,16 +40,3 @@ def insert_keypoints_sequence(df, n_sample:int, kp_seq):
         df = pd.concat([df, df_keypoints])
     
     return df
-
-def get_sequences_and_labels(words_id):
-    sequences, labels = [], []
-    
-    for word_index, word_id in enumerate(words_id):
-        hdf_path = os.path.join(KEYPOINTS_PATH, f"{word_id}.h5")
-        data = pd.read_hdf(hdf_path, key='data')
-        for _, df_sample in data.groupby('sample'):
-            seq_keypoints = [fila['keypoints'] for _, fila in df_sample.iterrows()]
-            sequences.append(seq_keypoints)
-            labels.append(word_index)
-                    
-    return sequences, labels

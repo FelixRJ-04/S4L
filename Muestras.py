@@ -6,6 +6,7 @@ from mediapipe.python.solutions.holistic import Holistic
 from datetime import datetime
 from Dibuja import draw_keypoints, mediapipe_detection, guardaFrames
 from typing import NamedTuple
+from Constantes import *
 
 FONT = cv.FONT_HERSHEY_PLAIN
 FONT_SIZE = 1.5
@@ -14,10 +15,6 @@ FONT_POS = (5, 30)
 MIN_LENGTH_FRAMES = 5
 LENGTH_KEYPOINTS = 1662
 MODEL_FRAMES = 15
-
-ROOT_PATH = os.getcwd()
-FRAME_ACTIONS_PATH = os.path.join(ROOT_PATH, "frame_actions")
-DATA_PATH = os.path.join(ROOT_PATH, "data")
 
 
 def creaCarpeta(path):

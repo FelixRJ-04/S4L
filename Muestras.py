@@ -25,7 +25,7 @@ def hayMano(results: NamedTuple) -> bool:
     return results.left_hand_landmarks or results.right_hand_landmarks
 
 
-def muestras(path, margenFrame =1, minFrames=7, delayFrames=3):
+def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
     creaCarpeta(path)
     frames=[]
     framesComp=0
@@ -49,18 +49,20 @@ def muestras(path, margenFrame =1, minFrames=7, delayFrames=3):
                 if cuentaFrame > margenFrame:
                      cv.putText(img, 'Almacenando', FONT_POS, FONT, FONT_SIZE, (255, 255, 255), thickness=1)
                      frames.append(np.asarray(frame))
-                     
+                     c_frames=len(frames)
+                     print(f"La cantidad de frames es: {c_frames}")
             else:
-                if len(frames) >= minFrames + margenFrame:
+                if len(frames) >= maxFrames + margenFrame:
                     framesComp +=1 
                     if framesComp < delayFrames:
                         recording =True
                         continue
-                    frames= frames[: - (margenFrame+ minFrames)]
+                    frames_i= frames[0:(margenFrame+ maxFrames)]
+                    cv.imshow('Img', frames[0])
                     today = datetime.now().strftime('%y%m%d%H%M%S%f')
                     carpetaSalida = os.path.join(path, f"Muestra_{today}")
                     creaCarpeta(carpetaSalida)
-                    guardaFrames(frames, carpetaSalida)
+                    guardaFrames(frames_i, carpetaSalida)
                         
                 recording, framesComp = False, 0
                 frames, cuentaFrame=[], 0

@@ -77,6 +77,6 @@ def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
         cv.destroyAllWindows()
         
 if __name__ == "__main__":
-    word_name = "Pan"
+    word_name = "Hola forma 1"
     word_path = os.path.join(ROOT_PATH, FRAME_ACTIONS_PATH, word_name)
     muestras(word_path)

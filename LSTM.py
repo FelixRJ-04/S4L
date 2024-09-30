@@ -37,8 +37,8 @@ def load_and_preprocess_data(base_path, test_size=0.2):
     etiquetas_unicas = np.unique(y_train)
     num_clases = len(etiquetas_unicas)
 
-    y_train_cat = to_categorical([np.where(etiquetas_unicas == y)[0][0] for y in y_train], num_clases=num_clases)
-    y_test_cat = to_categorical([np.where(etiquetas_unicas == y)[0][0] for y in y_test], num_clases=num_clases)
+    y_train_cat = to_categorical([np.where(etiquetas_unicas == y)[0][0] for y in y_train], num_classes=num_clases)
+    y_test_cat = to_categorical([np.where(etiquetas_unicas == y)[0][0] for y in y_test], num_classes=num_clases)
 
     timesteps = len(X_train[0])
     n_features = len(X_train[0][0])

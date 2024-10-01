@@ -18,7 +18,8 @@ def extrae_datos(base_path):
 
     for carpeta in carpetas:
         ruta_carpeta = os.path.join(base_path, carpeta)
-        data = pd.read_hdf(ruta_carpeta)
+        if carpeta.endswith(".h5"):
+            data = pd.read_hdf(ruta_carpeta)
 
         for _, imMues in data.groupby('sample'):
             secuencia_puntos = [fila['keypoints'] for _, fila in imMues.iterrows()]
@@ -32,10 +33,15 @@ def extrae_datos(base_path):
 def load_and_preprocess_data(base_path, test_size=0.2):
     secuencias, etiquetas = extrae_datos(base_path)
 
+    print(f"Total de muestras cargadas: {len(secuencias)}")
+
     X_train, X_test, y_train, y_test = train_test_split(secuencias, etiquetas, test_size=test_size, random_state=42)
 
     etiquetas_unicas = np.unique(y_train)
     num_clases = len(etiquetas_unicas)
+
+    print(f"Clases unicas: {etiquetas_unicas}")
+    print(f"Número de clases: {num_clases}")
 
     y_train_cat = to_categorical([np.where(etiquetas_unicas == y)[0][0] for y in y_train], num_classes=num_clases)
     y_test_cat = to_categorical([np.where(etiquetas_unicas == y)[0][0] for y in y_test], num_classes=num_clases)
@@ -50,9 +56,11 @@ def load_and_preprocess_data(base_path, test_size=0.2):
 
 def create_lstm_model(timesteps, n_features, n_clases):
     model = Sequential()
-    model.add(LSTM(units=64, return_sequences=True, input_shape=(timesteps, n_features)))
-    model.add(LSTM(units=64))
+    model.add(LSTM(units=128, return_sequences=True, input_shape=(timesteps, n_features)))
+    model.add(LSTM(units=128))
     model.add(Dense(units=n_clases, activation='softmax'))
+
+    model.summary()
 
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -66,7 +74,7 @@ X_train, X_test, y_train_cat, y_test_cat, timesteps, n_features, n_clases = load
 
 model = create_lstm_model(timesteps, n_features, n_clases)
 
-train_model(model, X_train, y_train_cat, X_test, y_test_cat, epochs=50, batch_size=32)
+train_model(model, X_train, y_train_cat, X_test, y_test_cat, epochs=100, batch_size=64)
 
 model.save('./Modelo_Prueba_LSTM.h5')
 

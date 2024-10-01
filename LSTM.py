@@ -5,8 +5,10 @@ import os
 import random
 
 from keras.models import Sequential
-from keras.layers import LSTM, Dense
+from keras.layers import Bidirectional, LSTM, Dense, Dropout
 from keras.utils import to_categorical
+from keras.regularizers import l2
+from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
 
 base_path = "./data/keypoints"
@@ -56,17 +58,20 @@ def load_and_preprocess_data(base_path, test_size=0.2):
 
 def create_lstm_model(timesteps, n_features, n_clases):
     model = Sequential()
-    model.add(LSTM(units=128, return_sequences=True, input_shape=(timesteps, n_features)))
-    model.add(LSTM(units=128))
-    model.add(Dense(units=n_clases, activation='softmax'))
+    model.add(Bidirectional(LSTM(units=128, return_sequences=True), input_shape=(timesteps, n_features)))
+    model.add(Dropout(0.3))
+    model.add(Bidirectional(LSTM(units=128)))
+    model.add(Dropout(0.3))
+    model.add(Dense(units=n_clases, activation='softmax', kernel_regularizer=l2(0.001)))
 
     model.summary()
 
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    optimizer = Adam(learning_rate=0.0001)
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
 
-def train_model(model, X_train, y_train, X_test, y_test, epochs=50, batch_size=32):
+def train_model(model, X_train, y_train, X_test, y_test, epochs=200, batch_size=64):
     train = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_data=(X_test, y_test))
     return train
 
@@ -74,7 +79,7 @@ X_train, X_test, y_train_cat, y_test_cat, timesteps, n_features, n_clases = load
 
 model = create_lstm_model(timesteps, n_features, n_clases)
 
-train_model(model, X_train, y_train_cat, X_test, y_test_cat, epochs=100, batch_size=64)
+train_model(model, X_train, y_train_cat, X_test, y_test_cat, epochs=200, batch_size=64)
 
 model.save('./Modelo_Prueba_LSTM.h5')
 

@@ -60,7 +60,7 @@ def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
                     guardaFrames(frames_i, carpetaSalida)
                         
                 recording, framesComp = False, 0
-                frames, cuentaFrame=[], 0
+                frames, cuentaFrame=[], 
                 cv.putText(img, 'Listo para capturar de nuevo...', FONT_POS, FONT, FONT_SIZE, (0, 177, 90))
                     
             draw_keypoints(img, results)

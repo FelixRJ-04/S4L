@@ -12,11 +12,6 @@ FONT = cv.FONT_HERSHEY_PLAIN
 FONT_SIZE = 1.5
 FONT_POS = (5, 30)
 
-MIN_LENGTH_FRAMES = 5
-LENGTH_KEYPOINTS = 1662
-MODEL_FRAMES = 15
-
-
 def creaCarpeta(path):
     if not os.path.exists(path):
         os.makedirs(path)

@@ -9,9 +9,5 @@ MODEL_FRAMES = 15
 # PATHS
 ROOT_PATH = os.getcwd()
 FRAME_ACTIONS_PATH = os.path.join(ROOT_PATH, "frame_actions")
-DATA_PATH = os.path.join(ROOT_PATH, "data")
-DATA_JSON_PATH = os.path.join(DATA_PATH, "data.json")
-MODEL_FOLDER_PATH = os.path.join(ROOT_PATH, "models")
-MODEL_PATH = os.path.join(MODEL_FOLDER_PATH, f"actions_{MODEL_FRAMES}.keras")
+DATA_PATH = os.path.join(ROOT_PATH, "data_5M")
 KEYPOINTS_PATH = os.path.join(DATA_PATH, "keypoints")
-WORDS_JSON_PATH = os.path.join(MODEL_FOLDER_PATH, "words.json")

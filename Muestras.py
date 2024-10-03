@@ -60,7 +60,7 @@ def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
                     guardaFrames(frames_i, carpetaSalida)
                         
                 recording, framesComp = False, 0
-                frames, cuentaFrame=[], 
+                frames, cuentaFrame=[], 0
                 cv.putText(img, 'Listo para capturar de nuevo...', FONT_POS, FONT, FONT_SIZE, (0, 177, 90))
                     
             draw_keypoints(img, results)
@@ -72,6 +72,6 @@ def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
         cv.destroyAllWindows()
         
 if __name__ == "__main__":
-    word_name = "Cerveza"
+    word_name = "Aceite"
     word_path = os.path.join(ROOT_PATH, FRAME_ACTIONS_PATH, word_name)
     muestras(word_path)

@@ -61,7 +61,7 @@ def normalize_keypoints(keypoints, target_length=15):
     
 def evaluate_model(src=None, threshold=0.8, margin_frame=1, delay_frames=3):
     kp_seq, sentence = [], []
-    contenido=os.listdir('./data/keypoints')
+    contenido=os.listdir('./data_5M/keypoints')
     contenido = np.array(contenido, dtype=str)
     word_ids =[]
     for NumPalabra, Palabra in enumerate(contenido):

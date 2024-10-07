@@ -26,6 +26,7 @@ def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
     framesComp=0
     cuentaFrame=0
     recording=False
+    cantidadMuestras=0 
     
     with Holistic() as holistic_model:
         camera=cv.VideoCapture(0)
@@ -53,11 +54,16 @@ def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
                         recording =True
                         continue
                     frames_i= frames[0:(margenFrame+ maxFrames)]
-                    cv.imshow('Img', frames[0])
                     today = datetime.now().strftime('%y%m%d%H%M%S%f')
                     carpetaSalida = os.path.join(path, f"Muestra_{today}")
                     creaCarpeta(carpetaSalida)
                     guardaFrames(frames_i, carpetaSalida)
+                    contenido=os.path.join('./frame_actions_5', f"{word_name}")
+                    contenidoD= os.listdir(contenido)
+                    contenidoL = np.array(contenidoD, dtype=str)
+                    cantidadMuestras=len(contenidoL)
+                    cv.imshow('Img', frames[0])
+                    print(f"La cantidad de muestras en la carpeta {word_name} es {cantidadMuestras}")
                         
                 recording, framesComp = False, 0
                 frames, cuentaFrame=[], 0
@@ -72,6 +78,6 @@ def muestras(path, margenFrame =1, maxFrames=29, delayFrames=3):
         cv.destroyAllWindows()
         
 if __name__ == "__main__":
-    word_name = "Aceite"
+    word_name = "Fideos"
     word_path = os.path.join(ROOT_PATH, FRAME_ACTIONS_PATH, word_name)
     muestras(word_path)

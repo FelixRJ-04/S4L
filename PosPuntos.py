@@ -1,35 +1,35 @@
 import os 
 import pandas as pd
 from mediapipe.python.solutions.holistic import Holistic
-from Keypoints import get_keypoints, insert_keypoints_sequence
+from Dibuja import *
 from Constantes import *
 
-def creaCarpeta(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
+def creaCarpeta(ruta):
+    if not os.path.exists(ruta):
+        os.makedirs(ruta)
 
-def guardaKeypoints(word_id, words_path, hdf_path):
+def guardaKeypoints(IDPalabra, rutaPalabra, rutaHDF):
     data = pd.DataFrame([])
-    frames_path = os.path.join(words_path, word_id)
+    rutaFrame = os.path.join(rutaPalabra, IDPalabra)
     
     with Holistic() as holistic:
-        print(f'Creando keypoints de "{word_id}"...')
-        sample_list = os.listdir(frames_path)
-        sample_count = len(sample_list)
+        print(f'Creando keypoints de "{IDPalabra}"...')
+        ListaMuestras = os.listdir(rutaFrame)
+        CuentaMuestras = len(ListaMuestras)
         
-        for n_sample, sample_name in enumerate(sample_list, start=1):
-            sample_path = os.path.join(frames_path, sample_name)
-            keypoints_sequence = get_keypoints(holistic, sample_path)
-            data = insert_keypoints_sequence(data, n_sample, keypoints_sequence)
-            print(f"{n_sample}/{sample_count}", end="\r")
+        for numMuest, nomMuestra in enumerate(ListaMuestras, start=1):
+            rutaMuestra = os.path.join(rutaFrame, nomMuestra)
+            keypoints_sequence = ObtenKeypoints(holistic, rutaMuestra)
+            data = InsertaSecuenciaKeypoints(data, numMuest, keypoints_sequence)
+            print(f"{numMuest}/{CuentaMuestras}", end="\r")
             
-    data.to_hdf(hdf_path, key='data', mode='w')
-    print(f"Keypoints creados! ({sample_count} muestras)", end="\n")
+    data.to_hdf(rutaHDF, key='data', mode='w')
+    print(f"Keypoints creados! ({CuentaMuestras} muestras)", end="\n")
 
 if __name__ == "__main__":
     # Crea la carpeta `keypoints` en caso no exista
-    creaCarpeta(KEYPOINTS_PATH)
-    word_ids = [word for word in os.listdir(os.path.join(ROOT_PATH, FRAME_ACTIONS_PATH))]
-    for word_id in word_ids:
-        hdf_path = os.path.join(KEYPOINTS_PATH, f"{word_id}.h5")
-        guardaKeypoints(word_id, FRAME_ACTIONS_PATH, hdf_path)
+    creaCarpeta(RutaKeypoints)
+    IDPalabras = [word for word in os.listdir(os.path.join(RutaRaiz, RutaFrameActions))]
+    for IDPalabra in IDPalabras:
+        rutaHDF = os.path.join(RutaKeypoints, f"{IDPalabra}.h5")
+        guardaKeypoints(IDPalabra, RutaFrameActions, rutaHDF)

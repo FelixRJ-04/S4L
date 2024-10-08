@@ -1,14 +1,14 @@
 import os
 import cv2 as cv
 
-FONT = cv.FONT_HERSHEY_PLAIN
-FONT_SIZE = 1.5
-FONT_POS = (5, 30)
+Fuente = cv.FONT_HERSHEY_PLAIN
+TamFuente = 1.5
+PosicionFuente = (5, 30)
 
 # SETTINGS
-MIN_LENGTH_FRAMES = 5
-LENGTH_KEYPOINTS = 1662
-MODEL_FRAMES = 30
+LongMinFrames = 5
+LongKeypoints = 1662
+FramesF = 30
 
 # PATHS
 RutaRaiz = os.getcwd()

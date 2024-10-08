@@ -39,7 +39,7 @@ def muestras(ruta, margenFrame =1, maxFrames=29, delayFrames=3):
                 recording=False
                 cuentaFrame += 1
                 if cuentaFrame > margenFrame:
-                     cv.putText(img, 'Almacenando', FONT_POS, FONT, FONT_SIZE, (255, 255, 255), thickness=1)
+                     cv.putText(img, 'Almacenando', PosicionFuente, Fuente, TamFuente, (255, 255, 255), thickness=1)
                      frames.append(np.asarray(frame))
                      cFrames=len(frames)
                      print(f"La cantidad de frames es: {cFrames}")
@@ -63,7 +63,7 @@ def muestras(ruta, margenFrame =1, maxFrames=29, delayFrames=3):
                         
                 recording, framesComp = False, 0
                 frames, cuentaFrame=[], 0
-                cv.putText(img, 'Listo para capturar de nuevo...', FONT_POS, FONT, FONT_SIZE, (0, 177, 90))
+                cv.putText(img, 'Listo para capturar de nuevo...', PosicionFuente, Fuente, TamFuente, (0, 177, 90))
                     
             DibujaKeypoints(img, resultados)
             cv.imshow(f'Toma de muestras para "{os.path.basename(ruta)}"', img)

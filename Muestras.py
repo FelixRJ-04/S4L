@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 import os 
-
 from mediapipe.python.solutions.holistic import Holistic
 from datetime import datetime
 from Dibuja import *
@@ -11,30 +10,19 @@ from Constantes import *
 def creaCarpeta(ruta):
     if not os.path.exists(ruta):
         os.makedirs(ruta)
-        
 def hayMano(results: NamedTuple) -> bool:
     return results.left_hand_landmarks or results.right_hand_landmarks
-
-
 def muestras(ruta, margenFrame =1, maxFrames=29, delayFrames=3):
     creaCarpeta(ruta)
-    frames=[]
-    framesComp=0
-    cuentaFrame=0
-    recording=False
-    cantidadMuestras=0 
-    
+    frames, framesComp,cuentaFrame, recording, cantidadMuestras=[], 0, 0, False, 0
     with Holistic() as holistic_model:
         camera=cv.VideoCapture(0)
-        
         while camera.isOpened():
             ret, frame = camera.read()
             if not ret: 
                 break
-            
             img =frame.copy()
             resultados= DeteccionMediapipe(frame, holistic_model)
-            
             if hayMano(resultados) or recording:
                 recording=False
                 cuentaFrame += 1
@@ -58,18 +46,13 @@ def muestras(ruta, margenFrame =1, maxFrames=29, delayFrames=3):
                     contenidoD= os.listdir(contenido)
                     contenidoL = np.array(contenidoD, dtype=str)
                     cantidadMuestras=len(contenidoL)
-                    cv.imshow('Img', frames[0])
                     print(f"La cantidad de muestras en la carpeta {Palabra} es {cantidadMuestras}")
-                        
-                recording, framesComp = False, 0
-                frames, cuentaFrame=[], 0
+                recording, framesComp, frames, cuentaFrame = False, 0, [], 0
                 cv.putText(img, 'Listo para capturar de nuevo...', PosicionFuente, Fuente, TamFuente, (0, 177, 90))
-                    
             DibujaKeypoints(img, resultados)
             cv.imshow(f'Toma de muestras para "{os.path.basename(ruta)}"', img)
             if cv.waitKey(10)&0xFF ==ord('q'):
                 break
-            
         camera.release()
         cv.destroyAllWindows()
         
